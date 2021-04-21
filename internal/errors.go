@@ -1,4 +1,4 @@
-package hraf
+package internal
 
 import (
 	"errors"
