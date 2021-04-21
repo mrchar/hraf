@@ -2,15 +2,19 @@ package json
 
 import "encoding/json"
 
-var def Codec
+var def = &Codec{}
 
 type Codec struct{}
 
-func (Codec) Encode(v interface{}) ([]byte, error) {
+func New() *Codec {
+	return new(Codec)
+}
+
+func (*Codec) Encode(v interface{}) ([]byte, error) {
 	return json.Marshal(v)
 }
 
-func (Codec) Decode(bytes []byte, v interface{}) error {
+func (*Codec) Decode(bytes []byte, v interface{}) error {
 	return json.Unmarshal(bytes, v)
 }
 
