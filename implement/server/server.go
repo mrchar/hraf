@@ -39,3 +39,7 @@ func (s *Server) Stop(ctx context.Context) error {
 func (s *Server) HandleFunc(pattern string, f func(http.ResponseWriter, *http.Request)) {
 	s.router.HandleFunc(pattern, f)
 }
+
+func (s *Server) Handle(pattern string, handler http.Handler) {
+	s.router.Handle(pattern, handler)
+}

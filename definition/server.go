@@ -12,5 +12,6 @@ type Server interface {
 	// 优雅关闭服务器
 	Stop(context.Context) error
 	// 当路由匹配路径时，使用给出的函数处理请求
-	HandleFunc(path string, f func(http.ResponseWriter, *http.Request))
+	HandleFunc(pattern string, f func(http.ResponseWriter, *http.Request))
+	Handle(pattern string, handler http.Handler)
 }
