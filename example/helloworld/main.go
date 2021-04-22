@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/mrchar/hraf"
-	"github.com/mrchar/hraf/implement/codec/json"
 )
 
 func main() {
@@ -18,15 +17,24 @@ func main() {
 	}
 }
 
+type greetParams struct {
+	Name string `json:"name"`
+}
+
 type greetResp struct {
 	Message string `json:"message"`
 }
 
 func greet(w http.ResponseWriter, r *http.Request) {
-	buffer, err := json.Encode(greetResp{"hello world!"})
-	if err != nil {
+	var params greetParams
+
+	if err := hraf.Pluck(r, &params); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if err := hraf.Respond(w, greetResp{"hello " + params.Name + "!"}); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	w.Write(buffer)
 }
